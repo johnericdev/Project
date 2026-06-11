@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>John Eric Exclamador | Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0f172a;
+      --deep:    #1e293b;
+      --card:    #1e2d3d;
+      --teal:    #38bdf8;
+      --mint:    #4ade80;
+      --muted:   #94a3b8;
+      --white:   #f1f5f9;
+      --radius:  14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2.5rem;
+      background: rgba(15,23,42,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(56,189,248,0.1);
+    }
+    .nav-logo {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700; font-size: 1.1rem;
+      color: var(--teal);
+      letter-spacing: 0.05em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.9rem; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 7rem 1.5rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 0%, rgba(56,189,248,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 80% 80%, rgba(74,222,128,0.07) 0%, transparent 60%);
+    }
+    .hero-inner { position: relative; max-width: 680px; }
+    .hero-greeting {
+      font-size: 0.85rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--teal); font-weight: 600; margin-bottom: 1rem;
+    }
+    .hero-name {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 700; line-height: 1.1;
+      margin-bottom: 0.6rem;
+    }
+    .hero-name span { color: var(--teal); }
+    .hero-title {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--muted); font-weight: 300;
+      margin-bottom: 2rem;
+    }
+    .hero-cta {
+      display: inline-flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    }
+    .btn {
+      padding: 0.7rem 1.8rem; border-radius: 50px;
+      font-size: 0.92rem; font-weight: 600; cursor: pointer;
+      text-decoration: none; transition: all 0.25s;
+    }
+    .btn-primary {
+      background: var(--teal); color: var(--navy);
+    }
+    .btn-primary:hover { background: #7dd3fc; transform: translateY(-2px); }
+    .btn-outline {
+      border: 1.5px solid var(--teal); color: var(--teal);
+    }
+    .btn-outline:hover { background: rgba(56,189,248,0.1); transform: translateY(-2px); }
+
+    /* ── SECTIONS ── */
+    section { padding: 5rem 1.5rem; max-width: 900px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.2em;
+      color: var(--teal); font-weight: 600; margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 700; margin-bottom: 2.5rem;
+    }
+    .section-title span { color: var(--teal); }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 640px) { .about-grid { grid-template-columns: 1fr; } }
+
+    .about-card {
+      background: var(--card);
+      border: 1px solid rgba(56,189,248,0.1);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.8rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .about-card:hover { border-color: rgba(56,189,248,0.35); transform: translateY(-3px); }
+    .about-card h3 {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--teal); margin-bottom: 0.6rem;
+    }
+    .about-card p { color: var(--muted); font-size: 0.95rem; }
+    .about-card.wide { grid-column: 1 / -1; }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+    .skill-group {
+      background: var(--card);
+      border: 1px solid rgba(56,189,248,0.1);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .skill-group:hover { border-color: rgba(74,222,128,0.35); }
+    .skill-group h3 {
+      font-family: 'Sora', sans-serif; font-size: 0.95rem; font-weight: 600;
+      color: var(--mint); margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tag {
+      background: rgba(56,189,248,0.1);
+      border: 1px solid rgba(56,189,248,0.2);
+      color: var(--teal); font-size: 0.8rem;
+      padding: 0.25rem 0.75rem; border-radius: 50px;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--card);
+      border: 1px solid rgba(56,189,248,0.1);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      display: flex; flex-direction: column; gap: 0.8rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .project-card:hover { border-color: rgba(56,189,248,0.4); transform: translateY(-4px); }
+    .project-icon { font-size: 1.8rem; }
+    .project-card h3 {
+      font-family: 'Sora', sans-serif; font-size: 1.05rem; font-weight: 600;
+    }
+    .project-card p { color: var(--muted); font-size: 0.9rem; flex: 1; }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+    .stack-badge {
+      background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.2);
+      color: var(--mint); font-size: 0.75rem;
+      padding: 0.2rem 0.6rem; border-radius: 50px;
+    }
+    .project-wip {
+      font-size: 0.75rem; color: var(--muted);
+      background: rgba(255,255,255,0.05);
+      padding: 0.3rem 0.7rem; border-radius: 6px;
+      width: fit-content; margin-top: 0.3rem;
+    }
+
+    /* ── CONTACT ── */
+    .contact-box {
+      background: var(--card);
+      border: 1px solid rgba(56,189,248,0.15);
+      border-radius: var(--radius);
+      padding: 3rem 2.5rem;
+      text-align: center;
+    }
+    .contact-box p { color: var(--muted); max-width: 480px; margin: 0 auto 2rem; }
+    .contact-links { display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; }
+    .contact-link {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.65rem 1.4rem; border-radius: 50px;
+      border: 1.5px solid rgba(56,189,248,0.3);
+      color: var(--white); text-decoration: none; font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .contact-link:hover { border-color: var(--teal); color: var(--teal); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 2rem;
+      color: var(--muted); font-size: 0.83rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px; max-width: 900px; margin: 0 auto;
+      background: linear-gradient(to right, transparent, rgba(56,189,248,0.2), transparent);
+    }
+
+    /* ── FADE IN ── */
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <span class="nav-logo">JE.</span>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-inner">
+      <p class="hero-greeting">👋 Hello, world — I'm</p>
+      <h1 class="hero-name">John Eric<br/><span>Exclamador</span></h1>
+      <p class="hero-title">BSCS Student · University of Bohol · Aspiring Software Developer</p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">View My Work</a>
+        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label fade-in">Who I Am</p>
+    <h2 class="section-title fade-in">About <span>Me</span></h2>
+    <div class="about-grid">
+      <div class="about-card fade-in">
+        <h3>📍 Background</h3>
+        <p>19 years old, from San Roque, Mabini, Bohol. Currently pursuing a Bachelor of Science in Computer Science at the University of Bohol.</p>
+      </div>
+      <div class="about-card fade-in">
+        <h3>💡 Why CS?</h3>
+        <p>My passion for computers drove me toward this field. I'm genuinely curious about how technology works and what I can build with it.</p>
+      </div>
+      <div class="about-card wide fade-in">
+        <h3>🌱 My Drive</h3>
+        <p>As the eldest brother, I don't just study for a degree — I study to set an example. I want my path to show my siblings that discipline and perseverance open real doors. My future work isn't just a career; it's something I want my parents to be proud of, and proof that the effort was worth it.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <p class="section-label fade-in">What I Know</p>
+    <h2 class="section-title fade-in">Skills &amp; <span>Tools</span></h2>
+    <div class="skills-grid">
+      <div class="skill-group fade-in">
+        <h3>🧑‍💻 Languages</h3>
+        <div class="skill-tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">Python</span>
+          <span class="tag">Java</span>
+        </div>
+      </div>
+      <div class="skill-group fade-in">
+        <h3>🛠️ Tools &amp; Platforms</h3>
+        <div class="skill-tags">
+          <span class="tag">VS Code</span>
+          <span class="tag">Git</span>
+          <span class="tag">GitHub</span>
+          <span class="tag">Linux</span>
+        </div>
+      </div>
+      <div class="skill-group fade-in">
+        <h3>📚 Currently Learning</h3>
+        <div class="skill-tags">
+          <span class="tag">Data Structures</span>
+          <span class="tag">Algorithms</span>
+          <span class="tag">React</span>
+          <span class="tag">Databases</span>
+        </div>
+      </div>
+      <div class="skill-group fade-in">
+        <h3>🤝 Soft Skills</h3>
+        <div class="skill-tags">
+          <span class="tag">Problem Solving</span>
+          <span class="tag">Team Work</span>
+          <span class="tag">Discipline</span>
+          <span class="tag">Fast Learner</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label fade-in">What I've Built</p>
+    <h2 class="section-title fade-in">My <span>Projects</span></h2>
+    <div class="projects-grid">
+      <div class="project-card fade-in">
+        <div class="project-icon">🌐</div>
+        <h3>Personal Portfolio</h3>
+        <p>This very portfolio — designed and coded from scratch to showcase my journey as a CS student.</p>
+        <div class="project-stack">
+          <span class="stack-badge">HTML</span>
+          <span class="stack-badge">CSS</span>
+          <span class="stack-badge">JavaScript</span>
+        </div>
+      </div>
+      <div class="project-card fade-in">
+        <div class="project-icon">📝</div>
+        <h3>To-Do List App</h3>
+        <p>A simple web-based task manager with local storage support, built as a JavaScript practice project.</p>
+        <div class="project-stack">
+          <span class="stack-badge">HTML</span>
+          <span class="stack-badge">CSS</span>
+          <span class="stack-badge">JS</span>
+        </div>
+      </div>
+      <div class="project-card fade-in">
+        <div class="project-icon">🔢</div>
+        <h3>Number Guessing Game</h3>
+        <p>A fun Python CLI game where the computer picks a number and you try to guess it with hints.</p>
+        <div class="project-stack">
+          <span class="stack-badge">Python</span>
+        </div>
+      </div>
+      <div class="project-card fade-in">
+        <div class="project-icon">🚀</div>
+        <h3>More Coming Soon…</h3>
+        <p>Actively working on school projects and personal builds. Check back as I grow through my BSCS journey!</p>
+        <p class="project-wip">⏳ In progress</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <p class="section-label fade-in">Let's Connect</p>
+    <h2 class="section-title fade-in">Get in <span>Touch</span></h2>
+    <div class="contact-box fade-in">
+      <p>I'm always open to connecting with fellow students, developers, and anyone who loves tech. Feel free to reach out!</p>
+      <div class="contact-links">
+        <a href="https://github.com/johnericexclamador" class="contact-link" target="_blank">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+          GitHub
+        </a>
+        <a href="mailto:johneric.exclamador@example.com" class="contact-link">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+          Email Me
+        </a>
+        <a href="https://www.facebook.com/" class="contact-link" target="_blank">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.49 0-1.956.93-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+          Facebook
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Designed &amp; built by <strong style="color:var(--teal)">John Eric Exclamador</strong> · BSCS Student, University of Bohol · © 2025</p>
+  </footer>
+
+  <script>
+    // Scroll fade-in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
